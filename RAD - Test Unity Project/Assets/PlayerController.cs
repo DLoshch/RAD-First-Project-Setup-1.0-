@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     public GameObject playerCamera;
     public float moveSpeed = 5f;
 
+    public float lookSensitivity = 10f;
+    public float yRotation = 0;
+    public float xRotation = 0;
+
     [SerializeField]
     private Vector2 moveInput;
     [SerializeField]
@@ -25,25 +29,31 @@ public class PlayerController : MonoBehaviour
         playerInputs.Player.Look.canceled += ctx => lookInput = Vector2.zero;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        MovePlayer();
-        RotatePlayerCamera();
+        Move();
+        Look();
     }
 
-    public void MovePlayer()
+    public void Move()
     {
         float gravity = -9.81f;
         Vector3 moveDirection = transform.forward;
         Vector3 move = new Vector3(moveInput.x * Time.deltaTime * moveSpeed, gravity * Time.deltaTime * moveSpeed, moveInput.y * Time.deltaTime * moveSpeed);
         Vector3 finalMove = move;
-        Debug.Log($"Move Direction: {moveDirection}, Final Move: {finalMove}");
         characterController.Move(finalMove);
     }
 
-    public void RotatePlayerCamera()
+    public void Look()
     {
+        yRotation += lookInput.x * Time.deltaTime * lookSensitivity;
+        Quaternion playerRotationY = Quaternion.Euler(0, yRotation, 0);
+        transform.rotation = playerRotationY;
 
+        xRotation += -lookInput.y * Time.deltaTime * lookSensitivity;
+        xRotation = Mathf.Clamp(xRotation, -80f, 80f);
+        Quaternion cameraRotationX = Quaternion.Euler(xRotation, transform.eulerAngles.y, 0);
+        playerCamera.transform.rotation = cameraRotationX;
     }
 }
