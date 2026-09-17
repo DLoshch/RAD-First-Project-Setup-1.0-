@@ -39,10 +39,9 @@ public class PlayerController : MonoBehaviour
     public void Move()
     {
         float gravity = -9.81f;
-        Vector3 moveDirection = transform.forward;
-        Vector3 move = new Vector3(moveInput.x * Time.deltaTime * moveSpeed, gravity * Time.deltaTime * moveSpeed, moveInput.y * Time.deltaTime * moveSpeed);
-        Vector3 finalMove = move;
-        characterController.Move(finalMove);
+        Vector3 move = new Vector3(moveInput.x * Time.deltaTime * moveSpeed, gravity * Time.deltaTime, moveInput.y * Time.deltaTime * moveSpeed);
+        move = transform.TransformDirection(move);
+        characterController.Move(move);
     }
 
     public void Look()
