@@ -56,4 +56,9 @@ public class PlayerController : MonoBehaviour
         Quaternion cameraRotationX = Quaternion.Euler(xRotation, transform.eulerAngles.y, 0);
         playerCamera.transform.rotation = cameraRotationX;
     }
+
+    public void InteractRaycast()
+    {
+        Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, 3f);
+    }
 }
