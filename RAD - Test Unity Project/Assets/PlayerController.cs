@@ -22,13 +22,14 @@ public class PlayerController : MonoBehaviour
         playerInputs = new PlayerInputs();
         playerInputs.Enable();
         playerInputs.Player.Enable();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         playerInputs.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         playerInputs.Player.Move.canceled += ctx => moveInput = Vector2.zero;
         playerInputs.Player.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
         playerInputs.Player.Look.canceled += ctx => lookInput = Vector2.zero;
     }
-
 
     void Update()
     {
